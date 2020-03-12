@@ -4,10 +4,10 @@ var utils = require("tns-core-modules/utils/utils");
 var ClusterItem = com.google.maps.android.clustering.ClusterItem;
 var ClusterManager = com.google.maps.android.clustering.ClusterManager;
 var DefaultClusterRenderer = com.google.maps.android.clustering.view.DefaultClusterRenderer;
-let clusterManager = {};
-let _mapView = {};
-const imageSourceModule = require("tns-core-modules/image-source");
-const Image = require('@nativescript/core/ui/image');
+var clusterManager = {};
+var _mapView = {};
+var imageSourceModule = require("tns-core-modules/image-source");
+var Image = require('@nativescript/core/ui/image');
 
 var CustomClusterItem = java.lang.Object.extend({
     interfaces: [ClusterItem],
@@ -50,7 +50,7 @@ exports.clearMap = clearMap;
 
         }, */
 
-function setupMarkerCluster(mapView, markers, icon) {
+function setupMarkerCluster(mapView, markers) {
     _mapView = mapView
     const CustomClusterRenderer = DefaultClusterRenderer.extend({
         init: function () { },

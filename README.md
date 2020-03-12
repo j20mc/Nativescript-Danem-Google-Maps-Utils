@@ -51,13 +51,13 @@ marker.infoWindowTemplate = icon;
 makerSet.push(marker)
 ```
 
-## MoveCamera
+## Camera movement
 
 ```
 GoogleMapsUtils.moveCamera(lat,lon,zoom)
 ```
 
-## Clear 
+## Clear map
 
 ```
 GoogleMapsUtils.clearMap();

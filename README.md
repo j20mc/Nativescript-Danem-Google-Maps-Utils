@@ -46,6 +46,7 @@ For the moment, the titles are not yet implemented. Don't add marker title.
 ```
 var icon = 'marker_icon'
 var marker: Marker = new Marker();
+marker.position = Position.positionFromLatLng(lat, lon);
 marker.infoWindowTemplate = icon;
 makerSet.push(marker)
 ```

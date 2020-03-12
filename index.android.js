@@ -4,7 +4,6 @@ var utils = require("tns-core-modules/utils/utils");
 var ClusterItem = com.google.maps.android.clustering.ClusterItem;
 var ClusterManager = com.google.maps.android.clustering.ClusterManager;
 var DefaultClusterRenderer = com.google.maps.android.clustering.view.DefaultClusterRenderer;
-var clusterManager = {};
 var _mapView = {};
 var imageSourceModule = require("tns-core-modules/image-source");
 var Image = require('@nativescript/core/ui/image');
@@ -61,7 +60,7 @@ function setupMarkerCluster(mapView, markers) {
             markerOptions.icon(androidIcon);
         }
     });
-    clusterManager = new ClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
+    var clusterManager = new ClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
     var renderer = new CustomClusterRenderer(utils.ad.getApplicationContext(), mapView.gMap, clusterManager);
     clusterManager.mapView = mapView;
     if (mapView.gMap.setOnCameraIdleListener) {

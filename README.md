@@ -1,4 +1,4 @@
-nativescript-google-maps-utils
+nativescript-danem-google-maps-utils
 ==================================
 
 NativeScript Google Maps SDK utility library IOS & Android :
@@ -10,8 +10,6 @@ NativeScript Google Maps SDK utility library IOS & Android :
 ## Dependencies
 
 * [nativescript-google-maps-sdk](https://github.com/dapriett/nativescript-google-maps-sdk)
-* https://github.com/googlemaps/android-maps-utils
-* https://github.com/googlemaps/google-maps-ios-utils
 
 # Install
 
@@ -46,23 +44,20 @@ For the moment, the titles are not yet implemented. Don't add marker title.
 ```
 var icon = 'marker_icon'
 var marker: Marker = new Marker();
-marker.position = Position.positionFromLatLng(lat, lon);
 marker.infoWindowTemplate = icon;
 makerSet.push(marker)
 ```
 
-## Camera movement
+## MoveCamera
 
 ```
 GoogleMapsUtils.moveCamera(lat,lon,zoom)
 ```
 
-## Clear map
+## Clear 
 
 ```
 GoogleMapsUtils.clearMap();
 ```
-
-
 
 Plugin inspired by nativescript-google-maps-utils, thanks @naderio

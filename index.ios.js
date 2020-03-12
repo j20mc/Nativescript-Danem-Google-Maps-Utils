@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var _icon = {};
 var _mapView = {};
 const imageSourceModule = require("tns-core-modules/image-source");
 const Image = require('@nativescript/core/ui/image');
@@ -98,10 +97,8 @@ function clearMap() {
 }
 exports.clearMap = clearMap;
 
-function setupMarkerCluster(mapView, markers, icon) {
+function setupMarkerCluster(mapView, markers) {
     _mapView = mapView;
-    _icon = icon
-    console.log("*** init ios map view: ");
     var iconGenerator = GMUDefaultClusterIconGenerator.alloc().init();
     var algorithm = GMUNonHierarchicalDistanceBasedAlgorithm.alloc().init();
     var renderer = GMUDefaultClusterRenderer.alloc().initWithMapViewClusterIconGenerator(mapView.nativeView, iconGenerator)
@@ -111,14 +108,6 @@ function setupMarkerCluster(mapView, markers, icon) {
     clusterManager.setDelegateMapDelegate(clusterManagerDelegate, mapView);
     var rendererDelegate = GMUClusterRendererDelegateImpl.initWithMapViewClusterIconGenerator(mapView.nativeView, iconGenerator, new WeakRef(this))
     renderer.delegate = rendererDelegate;
-    console.log(_mapView)
-    console.log("clusterManagerDelegate", clusterManagerDelegate)
-    console.log("rendererDelegate", rendererDelegate)
-    console.log("GMUDefaultClusterIconGenerator", iconGenerator instanceof GMUDefaultClusterIconGenerator, iconGenerator); // true
-    console.log("GMUNonHierarchicalDistanceBasedAlgorithm ", algorithm instanceof GMUNonHierarchicalDistanceBasedAlgorithm, algorithm); // true
-    console.log("GMUDefaultClusterRenderer : ", renderer instanceof GMUDefaultClusterRenderer, renderer); // true
-    console.log("GMUClusterManager : ", clusterManager instanceof GMUClusterManager, clusterManager); // true
-
     for (var i = 0; i < markers.length; i++) {
         var clusterItem = POIItem.alloc().initWithPositionNameImageUrl(markers[i].position.ios, markers[i].userData, markers[i].infoWindowTemplate)
         clusterManager.addItem(clusterItem)

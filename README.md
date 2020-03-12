@@ -62,4 +62,6 @@ GoogleMapsUtils.moveCamera(lat,lon,zoom)
 GoogleMapsUtils.clearMap();
 ```
 
+
+
 Plugin inspired by nativescript-google-maps-utils, thanks @naderio

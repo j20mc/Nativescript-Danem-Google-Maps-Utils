@@ -74,13 +74,8 @@ function setupMarkerCluster(mapView, markers) {
     mapView.gMap.setOnMarkerClickListener(clusterManager);
     clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener({
         onClusterItemClick: function (gmsMarker) {
-            var marker = mapView.findMarker(function (marker) {
-                if (marker.android.getId) {
-                    return marker.android.getId() === gmsMarker.getId();
-                }
-                return marker.title === gmsMarker.getTitle() && marker.snippet === gmsMarker.getSnippet() && marker.position.android.equals(gmsMarker.getPosition());
-            });
-            marker && mapView.notifyMarkerTapped(marker);
+            var marker = markers.find(mk => mk.android.getPosition() === gmsMarker.getPosition());
+            marker && _mapView.notifyMarkerTapped(marker);
             return false;
         }
     }));

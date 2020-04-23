@@ -6,7 +6,7 @@ NativeScript Google Maps SDK utility library IOS & Android :
 * Clustering implemented
 * Heatmap not implemented
 
-(I am available to improve this plugin as needed, so do not hesitate to open a ticket for a request.)
+!!*** I am available to improve this plugin as needed, so do not hesitate to open a ticket for a request ***!!
 
 ## Dependencies
 

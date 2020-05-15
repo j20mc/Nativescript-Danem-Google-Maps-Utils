@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _mapView = {};
 const imageSourceModule = require("tns-core-modules/image-source");
 const Image = require('@nativescript/core/ui/image');
+const utilsModule = require("tns-core-modules/utils/utils");
 
 var GMUClusterManagerDelegateImpl = (function (_super) {
     __extends(GMUClusterManagerDelegateImpl, _super);
@@ -28,6 +29,14 @@ var GMUClusterManagerDelegateImpl = (function (_super) {
     GMUClusterManagerDelegateImpl.prototype.clusterManagerDidTapClusterItem = function (clusterManager, poiItem) {
         var owner = this._owner.get();
         _mapView.notifyMarkerTapped(poiItem);
+        return false;
+    };
+
+    GMUClusterManagerDelegateImpl.prototype.clusterManagerDidTapCluster = function (clusterManager, cluster) {
+        var owner = this._owner.get();
+        var nsArray = cluster.items;
+        var listeMarker = utilsModule.ios.collections.nsArrayToJSArray(nsArray);
+        _mapView.notifyMarkerTapped(listeMarker);
         return false;
     };
 

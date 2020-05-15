@@ -49,6 +49,15 @@ marker.infoWindowTemplate = icon;
 makerSet.push(marker)
 ```
 
+## Marker Select & Cluster Select
+```
+onMarkerSelect(event) {
+// Be careful, if you tap on a marker it returns a marker, if you tap on a cluster it returns an array of markers.
+// var marker = event.marker
+// or
+// var arrayMarkers = event.marker
+}
+```
 ## MoveCamera
 
 ```

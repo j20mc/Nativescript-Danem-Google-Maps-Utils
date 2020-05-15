@@ -1,15 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils = require("tns-core-modules/utils/utils");
-var ClusterItem = com.google.maps.android.clustering.ClusterItem;
 var ClusterManager = com.google.maps.android.clustering.ClusterManager;
 var DefaultClusterRenderer = com.google.maps.android.clustering.view.DefaultClusterRenderer;
 var _mapView = {};
-var imageSourceModule = require("tns-core-modules/image-source");
+var ImageSource = require("tns-core-modules/image-source").ImageSource;
 var Image = require('@nativescript/core/ui/image');
 
-var CustomClusterItem = java.lang.Object.extend({
-    interfaces: [ClusterItem],
+const CustomClusterItem = java.lang.Object.extend({
+    interfaces: [com.google.maps.android.clustering.ClusterItem],
     marker: null,
     init: function () { },
     getMarker: function () {
@@ -27,12 +26,17 @@ var CustomClusterItem = java.lang.Object.extend({
 });
 
 function moveCamera(latitude, longitude) {
-    try {
-        var cameraUpdate = new com.google.android.gms.maps.CameraUpdateFactory.newLatLng(new com.google.android.gms.maps.model.LatLng(latitude, longitude))
-        _mapView.gMap.animateCamera(cameraUpdate)
-    } catch (e) {
-        console.log(e)
+    if (_mapView.gMap === undefined) {
+        console.log("NO INIT MAPVIEW")
+    } else {
+        try {
+            var cameraUpdate = new com.google.android.gms.maps.CameraUpdateFactory.newLatLng(new com.google.android.gms.maps.model.LatLng(latitude, longitude))
+            _mapView.gMap.animateCamera(cameraUpdate)
+        } catch (e) {
+            console.log(e)
+        }
     }
+
 }
 exports.moveCamera = moveCamera;
 
@@ -41,37 +45,30 @@ function clearMap() {
 }
 exports.clearMap = clearMap;
 
-/*,
-        OnClusterInfoWindowClickListener: function (clusterItem){
-
-        }, 
-        OnClusterItemInfoWindowClickListener: function (clusterItem){
-
-        }, */
-
 function setupMarkerCluster(mapView, markers) {
+    console.log(mapView, markers.length)
     _mapView = mapView
     const CustomClusterRenderer = DefaultClusterRenderer.extend({
         init: function () { },
         onBeforeClusterItemRendered: function (item, markerOptions) {
             var mIcon = Image;
-            mIcon.imageSource = imageSourceModule.fromResource(item.getMarker().infoWindowTemplate);
+            mIcon.imageSource = ImageSource.fromResourceSync(item.getMarker().infoWindowTemplate);
             var androidIcon = com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap(mIcon.imageSource.android);
             markerOptions.icon(androidIcon);
         }
     });
-    var clusterManager = new ClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
-    var renderer = new CustomClusterRenderer(utils.ad.getApplicationContext(), mapView.gMap, clusterManager);
-    clusterManager.mapView = mapView;
-    if (mapView.gMap.setOnCameraIdleListener) {
-        mapView.gMap.setOnCameraIdleListener(clusterManager);
+    var clusterManager = new ClusterManager(utils.ad.getApplicationContext(), _mapView.gMap);
+    var renderer = new CustomClusterRenderer(utils.ad.getApplicationContext(), _mapView.gMap, clusterManager);
+    clusterManager.mapView = _mapView;
+    if (_mapView.gMap.setOnCameraIdleListener) {
+        _mapView.gMap.setOnCameraIdleListener(clusterManager);
     }
-    else if (mapView.gMap.setOnCameraChangeListener) {
-        mapView.gMap.setOnCameraChangeListener(clusterManager);
+    else if (_mapView.gMap.setOnCameraChangeListener) {
+        _mapView.gMap.setOnCameraChangeListener(clusterManager);
     }
     clusterManager.setRenderer(renderer);
-    mapView.gMap.setOnInfoWindowClickListener(clusterManager);
-    mapView.gMap.setOnMarkerClickListener(clusterManager);
+    _mapView.gMap.setOnInfoWindowClickListener(clusterManager);
+    _mapView.gMap.setOnMarkerClickListener(clusterManager);
     clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener({
         onClusterItemClick: function (gmsMarker) {
             var marker = markers.find(mk => mk.android.getPosition() === gmsMarker.getPosition());
@@ -79,12 +76,25 @@ function setupMarkerCluster(mapView, markers) {
             return false;
         }
     }));
-    markers.forEach(function (marker) {
+
+    clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener({
+        onClusterClick: function (cluster) {
+            var listeMarker = cluster.getItems().toArray();
+            moveCamera(cluster.getPosition().latitude, cluster.getPosition().longitude, 18)
+            _mapView.notifyMarkerTapped(listeMarker);
+            return false;
+        }
+    }));
+
+    var arrayMarker = new java.util.ArrayList()
+    for(var i = 0; i < markers.length; i++){
         var markerItem = new CustomClusterItem();
-        markerItem.marker = marker;
-        clusterManager.addItem(markerItem);
-        mapView._markers.push(marker);
-    });
+        markerItem.marker = markers[i];
+        arrayMarker.add(markerItem)
+        if(i === markers.length - 1){
+            clusterManager.addItems(arrayMarker)
+        }
+    }
     clusterManager.cluster();
 }
 exports.setupMarkerCluster = setupMarkerCluster;

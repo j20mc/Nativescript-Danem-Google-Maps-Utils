@@ -22,9 +22,9 @@
 @interface POIItem : NSObject<GMUClusterItem>
 
 @property(nonatomic, readonly) CLLocationCoordinate2D position;
-@property(nonatomic, readonly) NSString *name;
+@property(nonatomic, readonly) NSString *userData;
 @property(nonatomic) NSString *imageUrl;
 
-- (instancetype)initWithPosition:(CLLocationCoordinate2D)position name:(NSString *)name imageUrl:(NSString *)url;
+- (instancetype)initWithPosition:(CLLocationCoordinate2D)position name:(NSString *)userData imageUrl:(NSString *)url;
 
 @end

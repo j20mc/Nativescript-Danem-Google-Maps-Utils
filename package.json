@@ -1,6 +1,6 @@
 {
   "name": "nativescript-danem-google-maps-utils",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A NativeScript Goole maps utils for IOS & Android.",
   "main": "index",
   "typings": "index.d.ts",
@@ -37,7 +37,7 @@
   ],
   "author": "Jean-Marc Chemama <j.chemama.danem@gmail.com>",
   "contributors": [
-    "Nader Toukabri (https://github.com/naderio)",
+    "Nader Toukabri (https://github.com/naderio)"
   ],
   "license": "Apache-2.0",
   "peerDependencies": {

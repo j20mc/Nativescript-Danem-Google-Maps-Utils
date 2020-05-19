@@ -80,18 +80,26 @@ function setupMarkerCluster(mapView, markers) {
     clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener({
         onClusterClick: function (cluster) {
             var listeMarker = cluster.getItems().toArray();
-            moveCamera(cluster.getPosition().latitude, cluster.getPosition().longitude, 18)
-            _mapView.notifyMarkerTapped(listeMarker);
-            return false;
+            var resultListeMarkers = [];
+            for (var i = 0; i < listeMarker.length; i++) {
+                resultListeMarkers.push(markers.find(mk => mk.android.getPosition() === listeMarker[i].getPosition()))
+                if (i === listeMarker.length - 1) {
+                    _mapView.notifyMarkerTapped(resultListeMarkers);
+                    return false;
+                }
+            }
+           
+            //moveCamera(cluster.getPosition().latitude, cluster.getPosition().longitude, 18)
+
         }
     }));
 
     var arrayMarker = new java.util.ArrayList()
-    for(var i = 0; i < markers.length; i++){
+    for (var i = 0; i < markers.length; i++) {
         var markerItem = new CustomClusterItem();
         markerItem.marker = markers[i];
         arrayMarker.add(markerItem)
-        if(i === markers.length - 1){
+        if (i === markers.length - 1) {
             clusterManager.addItems(arrayMarker)
         }
     }

@@ -1,6 +1,6 @@
 {
   "name": "nativescript-danem-google-maps-utils",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "description": "A NativeScript Goole maps utils for IOS & Android.",
   "main": "index",
   "typings": "index.d.ts",

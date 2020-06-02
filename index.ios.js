@@ -84,7 +84,8 @@ var GMUClusterRendererDelegateImpl = (function (_super) {
         if (marker.userData instanceof POIItem) {
             var mIcon = Image;
             mIcon.imageSource = imageSourceModule.fromResource(marker.userData.imageUrl);
-            marker.icon = mIcon.imageSource.ios
+            marker.icon = mIcon.imageSource.ios;
+             //marker.title = "test"
         } else {
             // cluster marker
         }
@@ -102,7 +103,8 @@ function moveCamera(latitude, longitude, zoom) {
 exports.moveCamera = moveCamera;
 
 function clearMap() {
-    _mapView.gMap.clear()
+    _mapView.gMap.clear();
+    _mapView = {};
 }
 exports.clearMap = clearMap;
 
@@ -127,7 +129,7 @@ function setupMarkerCluster(mapView, markers) {
     console.log("GMUClusterManager : ", clusterManager instanceof GMUClusterManager, clusterManager); // true
 
     for (var i = 0; i < markers.length; i++) {
-        var clusterItem = POIItem.alloc().initWithPositionNameImageUrl(markers[i].position.ios, markers[i].userData, markers[i].infoWindowTemplate)
+        var clusterItem = POIItem.alloc().initWithPositionNameImageUrlTitle(markers[i].position.ios, markers[i].userData, markers[i].infoWindowTemplate,markers[i].title)
         clusterManager.addItem(clusterItem)
         if (i === markers.length - 1) {
             clusterManager.cluster();

@@ -21,11 +21,12 @@
 
 @implementation POIItem
 
-- (instancetype)initWithPosition:(CLLocationCoordinate2D)position name:(NSString *)userData imageUrl:(NSString *)url{
+- (instancetype)initWithPosition:(CLLocationCoordinate2D)position name:(NSString *)userData imageUrl:(NSString *)url title:(NSString *)titre{
   if ((self = [super init])) {
     _position = position;
     _userData = [userData copy];
     _imageUrl = [url copy];
+    _title = [titre copy];
   }
   return self;
 }

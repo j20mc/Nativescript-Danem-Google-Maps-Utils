@@ -4,7 +4,6 @@ var utils = require("tns-core-modules/utils/utils");
 var ClusterManager = com.google.maps.android.clustering.ClusterManager;
 var DefaultClusterRenderer = com.google.maps.android.clustering.view.DefaultClusterRenderer;
 var _mapView = {};
-var ImageSource = require("tns-core-modules/image-source").ImageSource;
 var Image = require('@nativescript/core/ui/image');
 
 const CustomClusterItem = java.lang.Object.extend({
@@ -51,8 +50,9 @@ function setupMarkerCluster(mapView, markers) {
     const CustomClusterRenderer = DefaultClusterRenderer.extend({
         init: function () { },
         onBeforeClusterItemRendered: function (item, markerOptions) {
+            this.super.onBeforeClusterItemRendered(item, markerOptions);
             var mIcon = Image;
-            mIcon.imageSource = ImageSource.fromResourceSync(item.getMarker().infoWindowTemplate);
+            mIcon.imageSource = item.marker.icon.imageSource;
             var androidIcon = com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap(mIcon.imageSource.android);
             markerOptions.icon(androidIcon);
         }
@@ -69,8 +69,17 @@ function setupMarkerCluster(mapView, markers) {
     clusterManager.setRenderer(renderer);
     _mapView.gMap.setOnInfoWindowClickListener(clusterManager);
     _mapView.gMap.setOnMarkerClickListener(clusterManager);
+
     clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener({
         onClusterItemClick: function (gmsMarker) {
+            var marker = markers.find(mk => mk.android.getPosition() === gmsMarker.getPosition());
+            marker && _mapView.notifyMarkerTapped(marker);
+            return false;
+        }
+    }));
+
+    clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener({
+        onClusterItemInfoWindowClick: function (gmsMarker) {
             var marker = markers.find(mk => mk.android.getPosition() === gmsMarker.getPosition());
             marker && _mapView.notifyMarkerTapped(marker);
             return false;
@@ -88,9 +97,6 @@ function setupMarkerCluster(mapView, markers) {
                     return false;
                 }
             }
-           
-            //moveCamera(cluster.getPosition().latitude, cluster.getPosition().longitude, 18)
-
         }
     }));
 

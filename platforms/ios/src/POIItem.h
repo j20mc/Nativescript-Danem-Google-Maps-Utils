@@ -24,7 +24,8 @@
 @property(nonatomic, readonly) CLLocationCoordinate2D position;
 @property(nonatomic, readonly) NSString *userData;
 @property(nonatomic) NSString *imageUrl;
+@property(nonatomic) NSString *title;
 
-- (instancetype)initWithPosition:(CLLocationCoordinate2D)position name:(NSString *)userData imageUrl:(NSString *)url;
+- (instancetype)initWithPosition:(CLLocationCoordinate2D)position name:(NSString *)userData imageUrl:(NSString *)url title:(NSString *)titre;
 
 @end

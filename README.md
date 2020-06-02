@@ -1,4 +1,4 @@
-nativescript-danem-google-maps-utils
+nativescript-danem-google-maps-utils (V1.0.13)
 ==================================
 
 NativeScript Google Maps SDK utility library IOS & Android :
@@ -11,6 +11,7 @@ NativeScript Google Maps SDK utility library IOS & Android :
 ## Dependencies
 
 * [nativescript-google-maps-sdk](https://github.com/dapriett/nativescript-google-maps-sdk)
+* (Android - gradle) googlePlayServicesVersion = "17.0.0"
 
 # Install
 
@@ -39,8 +40,6 @@ GoogleMapsUtils.setupMarkerCluster(mapView, makerSet);
 # Clustering Info
 
 ## Marker icon
-
-For the moment, the titles are not yet implemented. Don't add marker title.
 
 ```
 var icon = 'marker_icon'

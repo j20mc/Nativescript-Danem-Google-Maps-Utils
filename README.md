@@ -1,4 +1,4 @@
-nativescript-danem-google-maps-utils (V1.0.13)
+nativescript-danem-google-maps-utils (V1.0.14)
 ==================================
 
 NativeScript Google Maps SDK utility library IOS & Android :

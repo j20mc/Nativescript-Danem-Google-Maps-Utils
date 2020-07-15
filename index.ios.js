@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var _mapView = {};
+var listHeatMap = [];
 const imageSourceModule = require("tns-core-modules/image-source");
 const Image = require('@nativescript/core/ui/image');
 const utilsModule = require("tns-core-modules/utils/utils");
+const Color = require("tns-core-modules/color").Color;
 
 var GMUClusterManagerDelegateImpl = (function (_super) {
     __extends(GMUClusterManagerDelegateImpl, _super);
@@ -85,7 +87,7 @@ var GMUClusterRendererDelegateImpl = (function (_super) {
             var mIcon = Image;
             mIcon.imageSource = imageSourceModule.fromResource(marker.userData.imageUrl);
             marker.icon = mIcon.imageSource.ios;
-             //marker.title = "test"
+            //marker.title = "test"
         } else {
             // cluster marker
         }
@@ -129,7 +131,7 @@ function setupMarkerCluster(mapView, markers) {
     console.log("GMUClusterManager : ", clusterManager instanceof GMUClusterManager, clusterManager); // true
 
     for (var i = 0; i < markers.length; i++) {
-        var clusterItem = POIItem.alloc().initWithPositionNameImageUrlTitle(markers[i].position.ios, markers[i].userData, markers[i].infoWindowTemplate,markers[i].title)
+        var clusterItem = POIItem.alloc().initWithPositionNameImageUrlTitle(markers[i].position.ios, markers[i].userData, markers[i].infoWindowTemplate, markers[i].title)
         clusterManager.addItem(clusterItem)
         if (i === markers.length - 1) {
             clusterManager.cluster();
@@ -139,8 +141,24 @@ function setupMarkerCluster(mapView, markers) {
 }
 
 exports.setupMarkerCluster = setupMarkerCluster;
-function setupHeatmap(mapView, positions, config) {
 
+
+function setupHeatmap(mapView, positions, config) {
+    var heatMap = GMUHeatmapTileLayer.alloc();
+    console.log("GMUHeatmapTileLayer : ", heatMap instanceof GMUHeatmapTileLayer, heatMap); // true
+    heatMap.radius = 80
+    heatMap.opacity = 0.8
+    heatMap.gradient = GMUGradient.alloc().initWithColorsStartPointsColorMapSize(
+        [new Color("#00FF00").ios, new Color("#FF0000").ios],
+        [0.1, 0.5],
+        256)
+    positions.forEach(function (position) {
+        var coords = GMUWeightedLatLng.alloc().initWithCoordinateIntensity(position.ios, 1.0)
+        listHeatMap.push(coords)
+    });
+    heatMap.weightedData = listHeatMap;
+    heatMap.map = mapView.gMap;
+    return heatMap
 }
 exports.setupHeatmap = setupHeatmap;
 //# sourceMappingURL=index.ios.js.map

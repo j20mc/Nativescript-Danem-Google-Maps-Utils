@@ -116,7 +116,6 @@ function setupMarkerCluster(mapView, markers) {
 exports.setupMarkerCluster = setupMarkerCluster;
 
 function setupHeatmap(mapView, positions, config) {
-    console.log("[ DEBUG ] => IN PLUGIN")
     var list = new java.util.ArrayList();
     positions.forEach(function (position) {
         list.add(position.android);

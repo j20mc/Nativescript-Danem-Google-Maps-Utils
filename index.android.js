@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var utils = require("tns-core-modules/utils/utils");
 var ClusterManager = com.google.maps.android.clustering.ClusterManager;
 var DefaultClusterRenderer = com.google.maps.android.clustering.view.DefaultClusterRenderer;
+var HeatmapTileProvider = com.google.maps.android.heatmaps.HeatmapTileProvider;
+var TileOverlayOptions = com.google.android.gms.maps.model.TileOverlayOptions;
 var _mapView = {};
 var Image = require('@nativescript/core/ui/image');
 
@@ -114,8 +116,25 @@ function setupMarkerCluster(mapView, markers) {
 exports.setupMarkerCluster = setupMarkerCluster;
 
 function setupHeatmap(mapView, positions, config) {
-    /*
-    */
+    console.log("[ DEBUG ] => IN PLUGIN")
+    var list = new java.util.ArrayList();
+    positions.forEach(function (position) {
+        list.add(position.android);
+    });
+    if (config) {
+        config.overlay.clearTileCache();
+        config.provider.setData(list);
+    } else {
+        config = {
+            provider: "",
+            overlay: "",
+        }
+        config.provider = new HeatmapTileProvider.Builder()
+            .data(list)
+            .build();
+        config.overlay = mapView.gMap.addTileOverlay(new TileOverlayOptions().tileProvider(config.provider));
+    }
+    return config;
 }
 exports.setupHeatmap = setupHeatmap;
 //# sourceMappingURL=index.android.js.map

@@ -4,7 +4,7 @@ nativescript-danem-google-maps-utils (V1.0.13)
 NativeScript Google Maps SDK utility library IOS & Android :
 
 * Clustering implemented
-* Heatmap not implemented
+* Heatmap IOS not implemented (en cours)
 
 *** I am available to improve this plugin as needed, so do not hesitate to open a ticket for a request ! ***
 

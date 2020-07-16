@@ -5,8 +5,30 @@ var ClusterManager = com.google.maps.android.clustering.ClusterManager;
 var DefaultClusterRenderer = com.google.maps.android.clustering.view.DefaultClusterRenderer;
 var HeatmapTileProvider = com.google.maps.android.heatmaps.HeatmapTileProvider;
 var TileOverlayOptions = com.google.android.gms.maps.model.TileOverlayOptions;
+var Gradient = com.google.maps.android.heatmaps.Gradient;
 var _mapView = {};
+var heatmaps = {
+    provider: "",
+    overlay: "",
+}
 var Image = require('@nativescript/core/ui/image');
+
+function moveCamera(latitude, longitude) {
+    if (_mapView.gMap === undefined) {
+        console.log("NO INIT MAPVIEW")
+    } else {
+        try {
+            var cameraUpdate = new com.google.android.gms.maps.CameraUpdateFactory.newLatLng(new com.google.android.gms.maps.model.LatLng(latitude, longitude))
+            _mapView.gMap.animateCamera(cameraUpdate)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+}
+exports.moveCamera = moveCamera;
+
+/***************************************** CLUSTERING *****************************************/
 
 const CustomClusterItem = java.lang.Object.extend({
     interfaces: [com.google.maps.android.clustering.ClusterItem],
@@ -25,26 +47,6 @@ const CustomClusterItem = java.lang.Object.extend({
         return this.marker.snippet;
     },
 });
-
-function moveCamera(latitude, longitude) {
-    if (_mapView.gMap === undefined) {
-        console.log("NO INIT MAPVIEW")
-    } else {
-        try {
-            var cameraUpdate = new com.google.android.gms.maps.CameraUpdateFactory.newLatLng(new com.google.android.gms.maps.model.LatLng(latitude, longitude))
-            _mapView.gMap.animateCamera(cameraUpdate)
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-}
-exports.moveCamera = moveCamera;
-
-function clearMap() {
-    _mapView.gMap.clear()
-}
-exports.clearMap = clearMap;
 
 function setupMarkerCluster(mapView, markers) {
     console.log(mapView, markers.length)
@@ -115,25 +117,46 @@ function setupMarkerCluster(mapView, markers) {
 }
 exports.setupMarkerCluster = setupMarkerCluster;
 
-function setupHeatmap(mapView, positions, config) {
+function clearMap() {
+    _mapView.gMap.clear()
+}
+exports.clearMap = clearMap;
+
+/***************************************** HEATMAP *****************************************/
+
+function setupHeatmap(mapView, positions, colors, startPoints) {
     var list = new java.util.ArrayList();
     positions.forEach(function (position) {
         list.add(position.android);
     });
-    if (config) {
-        config.overlay.clearTileCache();
-        config.provider.setData(list);
-    } else {
-        config = {
-            provider: "",
-            overlay: "",
-        }
-        config.provider = new HeatmapTileProvider.Builder()
-            .data(list)
-            .build();
-        config.overlay = mapView.gMap.addTileOverlay(new TileOverlayOptions().tileProvider(config.provider));
-    }
-    return config;
+    var colrs = Array.create("int", 2);
+    colrs[0] = colors[0].android;
+    colrs[1] = colors[1].android;
+    var sttPoints = Array.create("float", 2);
+    sttPoints[0] = startPoints[0];
+    sttPoints[1] = startPoints[1];
+    var gradient = new Gradient(colrs, sttPoints);
+    heatmaps.provider = new HeatmapTileProvider.Builder()
+        .data(list)
+        .gradient(gradient)
+        .build();
+    heatmaps.overlay = mapView.gMap.addTileOverlay(new TileOverlayOptions().tileProvider(heatmaps.provider));
+    return heatmaps
 }
 exports.setupHeatmap = setupHeatmap;
+
+function setOpacity(value) {
+    heatmaps.provider.setOpacity(value)
+}
+exports.setOpacity = setOpacity;
+
+function setRadius(value) {
+    heatmaps.provider.setRadius(value)
+}
+exports.setRadius = setRadius;
+
+function removeHeatmap() {
+    heatmaps.provider.remove()
+}
+exports.removeHeatmap = removeHeatmap;
 //# sourceMappingURL=index.android.js.map

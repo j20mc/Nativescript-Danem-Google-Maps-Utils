@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var _mapView = {};
 var listHeatMap = [];
+var heatmaps = {}
 const imageSourceModule = require("tns-core-modules/image-source");
 const Image = require('@nativescript/core/ui/image');
 const utilsModule = require("tns-core-modules/utils/utils");
-const Color = require("tns-core-modules/color").Color;
+
+/***************************************** CLUSTERING *****************************************/
 
 var GMUClusterManagerDelegateImpl = (function (_super) {
     __extends(GMUClusterManagerDelegateImpl, _super);
@@ -139,26 +141,42 @@ function setupMarkerCluster(mapView, markers) {
     }
 
 }
-
 exports.setupMarkerCluster = setupMarkerCluster;
 
+/***************************************** HEATMAP *****************************************/
 
-function setupHeatmap(mapView, positions, config) {
-    var heatMap = GMUHeatmapTileLayer.alloc();
-    console.log("GMUHeatmapTileLayer : ", heatMap instanceof GMUHeatmapTileLayer, heatMap); // true
-    heatMap.radius = 80
-    heatMap.opacity = 0.8
-    heatMap.gradient = GMUGradient.alloc().initWithColorsStartPointsColorMapSize(
-        [new Color("#00FF00").ios, new Color("#FF0000").ios],
-        [0.1, 0.5],
+function setupHeatmap(mapView, positions, colors, startPoints) {
+    heatmaps = GMUHeatmapTileLayer.alloc();
+    console.log("GMUHeatmapTileLayer : ", heatmaps instanceof GMUHeatmapTileLayer, heatmaps); // true
+    heatmaps.radius = 80
+    heatmaps.opacity = 0.8
+    heatmaps.gradient = GMUGradient.alloc().initWithColorsStartPointsColorMapSize(
+        [colors[0].ios, colors[1].ios],
+        [startPoints[0],startPoints[1]],
         256)
     positions.forEach(function (position) {
         var coords = GMUWeightedLatLng.alloc().initWithCoordinateIntensity(position.ios, 1.0)
         listHeatMap.push(coords)
     });
-    heatMap.weightedData = listHeatMap;
-    heatMap.map = mapView.gMap;
-    return heatMap
+    heatmaps.weightedData = listHeatMap;
+    heatmaps.map = mapView.gMap;
+    return heatmaps
 }
 exports.setupHeatmap = setupHeatmap;
+
+function setOpacity(value){
+    heatmaps.opacity = value
+}
+exports.setOpacity = setOpacity;
+
+function setRadius(value){
+    heatmaps.radius = value
+}
+exports.setRadius = setRadius;
+
+function removeHeatmap() {
+    heatmaps.map = null
+}
+exports.removeHeatmap = removeHeatmap;
+
 //# sourceMappingURL=index.ios.js.map

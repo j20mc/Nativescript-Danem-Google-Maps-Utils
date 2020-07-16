@@ -1,4 +1,4 @@
-nativescript-danem-google-maps-utils (V1.0.16)
+nativescript-danem-google-maps-utils (V1.0.17)
 ==================================
 
 NativeScript Google Maps SDK utility library IOS & Android :
@@ -68,9 +68,10 @@ GoogleMapsUtils.moveCamera(lat,lon,zoom)
 
 ```
 GoogleMapsUtils.clearMap();
+GoogleMapsUtils.
 ```
 
-# HeatMap Demo
+# HeatMap
 
 ```
 generateRandomPosition(position, distance) {
@@ -93,16 +94,24 @@ generateRandomPosition(position, distance) {
 
 demoSetupHeatMap() {
     var positionSet = [];
-    var makerSet;
-    for (var i = 0; i < 200; i++) {
+    for (var i = 0; i < 400; i++) {
         positionSet.push(this.generateRandomPosition([48.7797613, 2.4658653], 10000));
     }
 
     positionSet = positionSet.map(function (position) {
         return GoogleMaps.Position.positionFromLatLng(position[0], position[1]);
     });
-    GoogleMapsUtils.setupHeatmap(this.mapView, positionSet);
+    GoogleMapsUtils.setupHeatmap(this.mapView, positionSet, [new Color("#00FF00"), new Color("#FF0000")], [0.10, 0.50]);
+    GoogleMapsUtils.setOpacity(0.8);
+    GoogleMapsUtils.setRadius(80)
 }
    ```
+
+## Set Opacity & Radius 
+
+```
+    GoogleMapsUtils.setOpacity(0.8);
+    GoogleMapsUtils.setRadius(80)
+```
 
 Plugin inspired by nativescript-google-maps-utils, thanks @naderio

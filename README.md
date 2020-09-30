@@ -27,7 +27,7 @@ tns plugin add nativescript-danem-google-maps-utils
 
 ```
 var GoogleMaps = require('nativescript-google-maps-sdk');
-var GoogleMapsUtils = require('nativescript-google-maps-utils');
+var GoogleMapsUtils = require('nativescript-danem-google-maps-utils');
 ```
 
 ## Call function

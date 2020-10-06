@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var _mapView = {};
-var listHeatMap = [];
 var heatmaps = {}
 const imageSourceModule = require("tns-core-modules/image-source");
 const Image = require('@nativescript/core/ui/image');
@@ -146,6 +145,7 @@ exports.setupMarkerCluster = setupMarkerCluster;
 /***************************************** HEATMAP *****************************************/
 
 function setupHeatmap(mapView, positions, colors, startPoints) {
+    var listHeatMap = [];
     heatmaps = GMUHeatmapTileLayer.alloc();
     console.log("GMUHeatmapTileLayer : ", heatmaps instanceof GMUHeatmapTileLayer, heatmaps); // true
     heatmaps.radius = 80

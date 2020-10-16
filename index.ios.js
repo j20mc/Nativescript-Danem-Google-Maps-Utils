@@ -152,7 +152,7 @@ function setupHeatmap(mapView, positions, colors, startPoints) {
     heatmaps.opacity = 0.8
     heatmaps.gradient = GMUGradient.alloc().initWithColorsStartPointsColorMapSize(
         [colors[0].ios, colors[1].ios],
-        [startPoints[0],startPoints[1]],
+        [startPoints[0], startPoints[1]],
         256)
     positions.forEach(function (position) {
         var coords = GMUWeightedLatLng.alloc().initWithCoordinateIntensity(position.ios, 1.0)
@@ -164,12 +164,12 @@ function setupHeatmap(mapView, positions, colors, startPoints) {
 }
 exports.setupHeatmap = setupHeatmap;
 
-function setOpacity(value){
+function setOpacity(value) {
     heatmaps.opacity = value
 }
 exports.setOpacity = setOpacity;
 
-function setRadius(value){
+function setRadius(value) {
     heatmaps.radius = value
 }
 exports.setRadius = setRadius;
